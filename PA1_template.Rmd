@@ -1,14 +1,17 @@
 ---
-title: "Project1"
-output: html_document
+output: 
+  html_document: 
+    self_contained: no
 ---
 
-```{r setup, include=FALSE}
+
+```{r setup, include=TRUE,fig.width=10, fig.height=5,fig.path='figures/',dev=c('png', 'pdf')}
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 ###Introduction
-It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the “quantified self” movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
+It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the quantified self movement a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
 
 This project makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
@@ -40,7 +43,7 @@ sumstepsfordays <- actdata %>% group_by(date) %>% summarise(steps=sum(steps))
 sumstepsfordays
 ```
 ##Below is histogram of total number of steps taken each day##
-```{r}
+```{r 'stpstknperday',fig.width=10, fig.height=5,fig.path='figures/',dev=c('png')}
 hist(sumstepsfordays$steps,
      main="Histogram for Sum of steps taken per day",
      xlab="Number of Steps",
@@ -66,7 +69,7 @@ normedian<-median(sumstepsfordays$steps,na.rm=TRUE)
 
 ##Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)##
 
-```{r}
+```{r 'avgstpstknperintrvl',fig.width=10, fig.height=5,fig.path='figures/',dev=c('png')}
 avgstepsforintervals <- actdata %>% filter(!is.na(actdata$steps)) %>% group_by(interval) %>% summarise(steps=mean(steps))
 plot(x=avgstepsforintervals$interval,y=avgstepsforintervals$steps,type="l",ylim=c(0,200))
 
@@ -103,7 +106,7 @@ imputeddata[as.character(imputeddata$date) == "2012-10-01", 1] <- 0
 ```
 
 ##Histogram of the total number of steps taken each day##
-```{r}
+```{r 'stpstknperdyaftrimptngmssngval',fig.width=10, fig.height=5,fig.path='figures/',dev=c('png')}
 impsumstepsfordays <- imputeddata %>% group_by(date) %>% summarise(steps=sum(steps))
 
 
@@ -125,7 +128,7 @@ impmedian <- median(impsumstepsfordays$steps)
 *Median of steps in imputed data is `r impmedian`*
 
 ##Below is the histogram to show the difference of data before and after imputation of missing values##
-```{r}
+```{r 'diffbtwimptdandnonimptddata',fig.width=10, fig.height=5,fig.path='figures/',dev=c('png')}
 hist(impsumstepsfordays$steps,
      main="Histogram for Sum of steps taken per day",
      xlab="Number of Steps",
@@ -154,7 +157,7 @@ median_diff <- impmedian - normedian
 
 
 ##Difference of activity between weekday and weekend##
-```{r}
+```{r 'diffbeforeandafterimputation',fig.width=10, fig.height=5,fig.path='figures/',dev=c('png')}
 Weekdays <- c("Monday","Tuesday","Wednesday","Thursday","Friday")
 
 imputeddata$dayofweek <- 
